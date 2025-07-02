@@ -7,32 +7,32 @@ generate-config:
 
 # Start all services
 up: generate-config
-	docker-compose up -d
+	docker compose up -d
 
 # Start with build
 build: generate-config
-	docker-compose up --build -d
+	docker compose up --build -d
 
 # Stop all services
 down:
-	docker-compose down
+	docker compose down
 
 # View logs
 logs:
-	docker-compose logs -f
+	docker compose logs -f
 
 # Show running containers
 ps:
-	docker-compose ps
+	docker compose ps
 
 # Clean everything (WARNING: Deletes data)
 clean:
-	docker-compose down -v
+	docker compose down -v
 	docker system prune -f
 
 # Production deployment
 prod-deploy: generate-config
-	docker-compose -f docker-compose.yml up -d --build
+	docker compose -f docker-compose.yml up -d --build
 
 # Test connections
 test:
