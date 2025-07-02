@@ -1,0 +1,21 @@
+[databases]
+k3i_public = host=db port=5432 dbname=k3i_public user=${POSTGRES_USER} password=${POSTGRES_PASSWORD}
+logger     = host=db port=5432 dbname=logger user=${POSTGRES_USER} password=${POSTGRES_PASSWORD}
+postgres   = host=db port=5432 dbname=postgres user=${POSTGRES_USER} password=${POSTGRES_PASSWORD}
+timescaledb = host=db port=5432 dbname=timescaledb user=${POSTGRES_USER} password=${POSTGRES_PASSWORD}
+k3i2023_stagging = host=db port=5432 dbname=k3i2023_stagging user=${POSTGRES_USER} password=${POSTGRES_PASSWORD}
+k3i2022_v3 = host=db port=5432 dbname=k3i2022_v3 user=${POSTGRES_USER} password=${POSTGRES_PASSWORD}
+
+[pgbouncer]
+listen_addr = 0.0.0.0
+listen_port = 6432
+auth_type = md5
+auth_file = /etc/pgbouncer/userlist.txt
+pool_mode = transaction
+max_client_conn = ${PGBOUNCER_MAX_CLIENT_CONN}
+default_pool_size = ${PGBOUNCER_DEFAULT_POOL_SIZE}
+max_db_connections = ${PGBOUNCER_MAX_DB_CONNECTIONS}
+server_reset_query = DISCARD ALL
+server_check_query = SELECT 1
+server_check_delay = 30
+ignore_startup_parameters = extra_float_digits 

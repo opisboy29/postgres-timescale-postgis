@@ -1,0 +1,42 @@
+# Environment files
+.env
+.env.local
+.env.production
+.env.staging
+
+# Database data
+data_timescale/
+*.sql
+!init.sql
+backups/
+
+# Generated configs (optional, if using templates)
+pgbouncer/pgbouncer.ini
+pgbouncer/userlist.txt
+
+# Logs
+*.log
+logs/
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Docker
+.dockerignore
+
+# Backup files
+*.backup
+*.bak 
