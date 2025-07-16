@@ -23,11 +23,11 @@ services:
       - "-c"
       - "max_connections=${DB_MAX_CONNECTIONS}"
       - "-c"
-      - "shared_buffers=4GB"
+      - "shared_buffers=${DB_SHARED_BUFFERS}"  # ✅ Fixed: was 4GB
       - "-c"
-      - "effective_cache_size=12GB"
+      - "effective_cache_size=${DB_EFFECTIVE_CACHE_SIZE}"  # ✅ Fixed: was 12GB
       - "-c"
-      - "maintenance_work_mem=1GB"
+      - "maintenance_work_mem=${DB_MAINTENANCE_WORK_MEM}"  # ✅ Fixed: was 1GB
       - "-c"
       - "checkpoint_completion_target=0.9"
       - "-c"
@@ -39,7 +39,7 @@ services:
       - "-c"
       - "effective_io_concurrency=300"
       - "-c"
-      - "work_mem=2759kB"
+      - "work_mem=${DB_WORK_MEM}"  # ✅ Fixed: was 2759kB
       - "-c"
       - "huge_pages=off"
       - "-c"
