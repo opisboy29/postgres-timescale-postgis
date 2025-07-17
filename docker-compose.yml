@@ -4,6 +4,7 @@ services:
   db:
     build: .  # Build custom image with TimescaleDB + PostGIS
     container_name: ${DB_CONTAINER_NAME}
+    shm_size: 2gb
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -23,11 +24,11 @@ services:
       - "-c"
       - "max_connections=${DB_MAX_CONNECTIONS}"
       - "-c"
-      - "shared_buffers=${DB_SHARED_BUFFERS}"  # ✅ Fixed: was 4GB
+      - "shared_buffers=${DB_SHARED_BUFFERS}"
       - "-c"
-      - "effective_cache_size=${DB_EFFECTIVE_CACHE_SIZE}"  # ✅ Fixed: was 12GB
+      - "effective_cache_size=${DB_EFFECTIVE_CACHE_SIZE}"
       - "-c"
-      - "maintenance_work_mem=${DB_MAINTENANCE_WORK_MEM}"  # ✅ Fixed: was 1GB
+      - "maintenance_work_mem=${DB_MAINTENANCE_WORK_MEM}"
       - "-c"
       - "checkpoint_completion_target=0.9"
       - "-c"
