@@ -11,6 +11,18 @@ server_check_delay = 30
 server_lifetime = 3600
 server_idle_timeout = 600
 
+[admin]
+enabled = true
+host = "0.0.0.0"
+port = 9930
+username = "${POSTGRES_USER}"
+password = "${POSTGRES_PASSWORD}"
+
+[prometheus]
+enabled = true
+host = "0.0.0.0"
+port = 9931
+
 [databases.k3i_public]
 host = "db"
 port = 5432
@@ -53,12 +65,9 @@ database = "k3i2022_v3"
 user = "${POSTGRES_USER}"
 password = "${POSTGRES_PASSWORD}"
 
-[admin]
-enabled = true
-host = "0.0.0.0"
-port = 9930
-
-[prometheus]
-enabled = true
-host = "0.0.0.0"
-port = 9931
+[databases.k3i2025_dummy]
+host = "db"
+port = 5432
+database = "k3i2025_dummy"
+user = "${POSTGRES_USER}"
+password = "${POSTGRES_PASSWORD}"
