@@ -20,71 +20,71 @@ pool_size = 25
 statement_timeout = 0
 
 [pools.postgres.databases.0]
-database = "timescaledb"
+database = "k3i2025_dummy"
 max_connections = 100
 
 [pools.postgres.databases.1]
-database = "k3i_public"
+database = "timescaledb"
 max_connections = 100
 
 [pools.postgres.databases.2]
-database = "logger"
+database = "k3i_public"
 max_connections = 100
 
 [pools.postgres.databases.3]
-database = "postgres"
+database = "logger"
 max_connections = 100
 
 [pools.postgres.databases.4]
-database = "k3i2023_stagging"
+database = "postgres"
 max_connections = 100
 
 [pools.postgres.databases.5]
-database = "k3i2022_v3"
+database = "k3i2023_stagging"
 max_connections = 100
 
 [pools.postgres.databases.6]
-database = "k3i2025_dummy"
+database = "k3i2022_v3"
 max_connections = 100
 
 [pools.postgres.shards.0]
 servers = [
     ["db", 5432, "primary"],
 ]
-database = "timescaledb"
+database = "k3i2025_dummy"
 
 [pools.postgres.shards.1]
 servers = [
     ["db", 5432, "primary"],
 ]
-database = "k3i_public"
+database = "timescaledb"
 
 [pools.postgres.shards.2]
 servers = [
     ["db", 5432, "primary"],
 ]
-database = "logger"
+database = "k3i_public"
 
 [pools.postgres.shards.3]
 servers = [
     ["db", 5432, "primary"],
 ]
-database = "postgres"
+database = "logger"
 
 [pools.postgres.shards.4]
 servers = [
     ["db", 5432, "primary"],
 ]
-database = "k3i2023_stagging"
+database = "postgres"
 
 [pools.postgres.shards.5]
 servers = [
     ["db", 5432, "primary"],
 ]
-database = "k3i2022_v3"
+database = "k3i2023_stagging"
 
 [pools.postgres.shards.6]
 servers = [
     ["db", 5432, "primary"],
 ]
-database = "k3i2025_dummy"
+database = "k3i2022_v3"
