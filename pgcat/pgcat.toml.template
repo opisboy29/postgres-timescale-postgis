@@ -1,73 +1,90 @@
 [general]
 host = "0.0.0.0"
 port = 6432
-pool_mode = "session"
-max_client_conn = "${PGCAT_MAX_CLIENT_CONN}"
-default_pool_size = "${PGCAT_DEFAULT_POOL_SIZE}"
-max_db_connections = "${PGCAT_MAX_DB_CONNECTIONS}"
-server_reset_query = "DISCARD ALL"
-server_check_query = "SELECT 1"
-server_check_delay = 30
-server_lifetime = 3600
-server_idle_timeout = 600
+enable_prometheus_exporter = true
+prometheus_exporter_port = 9930
+admin_username = "${POSTGRES_USER}"
+admin_password = "${POSTGRES_PASSWORD}"
 
-[admin]
-enabled = true
-host = "0.0.0.0"
-port = 9930
+[pools.postgres]
+pool_mode = "transaction"
+default_role = "primary"
+query_parser_enabled = true
+primary_reads_enabled = true
+sharding_function = "pg_bigint_hash"
+
+[pools.postgres.users.0]
 username = "${POSTGRES_USER}"
 password = "${POSTGRES_PASSWORD}"
+pool_size = 25
+statement_timeout = 0
 
-[prometheus]
-enabled = true
-host = "0.0.0.0"
-port = 9931
-
-[databases.k3i_public]
-host = "db"
-port = 5432
-database = "k3i_public"
-user = "${POSTGRES_USER}"
-password = "${POSTGRES_PASSWORD}"
-
-[databases.logger]
-host = "db"
-port = 5432
-database = "logger"
-user = "${POSTGRES_USER}"
-password = "${POSTGRES_PASSWORD}"
-
-[databases.postgres]
-host = "db"
-port = 5432
-database = "postgres"
-user = "${POSTGRES_USER}"
-password = "${POSTGRES_PASSWORD}"
-
-[databases.timescaledb]
-host = "db"
-port = 5432
+[pools.postgres.databases.0]
 database = "timescaledb"
-user = "${POSTGRES_USER}"
-password = "${POSTGRES_PASSWORD}"
+max_connections = 100
 
-[databases.k3i2023_stagging]
-host = "db"
-port = 5432
+[pools.postgres.databases.1]
+database = "k3i_public"
+max_connections = 100
+
+[pools.postgres.databases.2]
+database = "logger"
+max_connections = 100
+
+[pools.postgres.databases.3]
+database = "postgres"
+max_connections = 100
+
+[pools.postgres.databases.4]
 database = "k3i2023_stagging"
-user = "${POSTGRES_USER}"
-password = "${POSTGRES_PASSWORD}"
+max_connections = 100
 
-[databases.k3i2022_v3]
-host = "db"
-port = 5432
+[pools.postgres.databases.5]
 database = "k3i2022_v3"
-user = "${POSTGRES_USER}"
-password = "${POSTGRES_PASSWORD}"
+max_connections = 100
 
-[databases.k3i2025_dummy]
-host = "db"
-port = 5432
+[pools.postgres.databases.6]
 database = "k3i2025_dummy"
-user = "${POSTGRES_USER}"
-password = "${POSTGRES_PASSWORD}"
+max_connections = 100
+
+[pools.postgres.shards.0]
+servers = [
+    ["db", 5432, "primary"],
+]
+database = "timescaledb"
+
+[pools.postgres.shards.1]
+servers = [
+    ["db", 5432, "primary"],
+]
+database = "k3i_public"
+
+[pools.postgres.shards.2]
+servers = [
+    ["db", 5432, "primary"],
+]
+database = "logger"
+
+[pools.postgres.shards.3]
+servers = [
+    ["db", 5432, "primary"],
+]
+database = "postgres"
+
+[pools.postgres.shards.4]
+servers = [
+    ["db", 5432, "primary"],
+]
+database = "k3i2023_stagging"
+
+[pools.postgres.shards.5]
+servers = [
+    ["db", 5432, "primary"],
+]
+database = "k3i2022_v3"
+
+[pools.postgres.shards.6]
+servers = [
+    ["db", 5432, "primary"],
+]
+database = "k3i2025_dummy"
