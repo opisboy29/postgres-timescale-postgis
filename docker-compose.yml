@@ -63,15 +63,16 @@ services:
       - "listen_addresses=*"
     restart: always
 
-  pgbouncer:
-    image: edoburu/pgbouncer:latest
-    container_name: ${PGBOUNCER_CONTAINER_NAME}
+  pgcat:
+    image: postgresml/pgcat:latest
+    container_name: ${PGCAT_CONTAINER_NAME}
     restart: always
     ports:
-      - "${PGBOUNCER_PORT}:6432"
+      - "${PGCAT_PORT}:6432"
+      - "9930:9930"  # Admin interface
+      - "9931:9931"  # Prometheus metrics
     volumes:
-      - ./pgbouncer/pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini:ro
-      - ./pgbouncer/userlist.txt:/etc/pgbouncer/userlist.txt:ro
+      - ./pgcat/pgcat.toml:/etc/pgcat/pgcat.toml:ro
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}

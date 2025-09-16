@@ -1,0 +1,64 @@
+[general]
+host = "0.0.0.0"
+port = 6432
+pool_mode = "session"
+max_client_conn = "${PGCAT_MAX_CLIENT_CONN}"
+default_pool_size = "${PGCAT_DEFAULT_POOL_SIZE}"
+max_db_connections = "${PGCAT_MAX_DB_CONNECTIONS}"
+server_reset_query = "DISCARD ALL"
+server_check_query = "SELECT 1"
+server_check_delay = 30
+server_lifetime = 3600
+server_idle_timeout = 600
+
+[databases.k3i_public]
+host = "db"
+port = 5432
+database = "k3i_public"
+user = "${POSTGRES_USER}"
+password = "${POSTGRES_PASSWORD}"
+
+[databases.logger]
+host = "db"
+port = 5432
+database = "logger"
+user = "${POSTGRES_USER}"
+password = "${POSTGRES_PASSWORD}"
+
+[databases.postgres]
+host = "db"
+port = 5432
+database = "postgres"
+user = "${POSTGRES_USER}"
+password = "${POSTGRES_PASSWORD}"
+
+[databases.timescaledb]
+host = "db"
+port = 5432
+database = "timescaledb"
+user = "${POSTGRES_USER}"
+password = "${POSTGRES_PASSWORD}"
+
+[databases.k3i2023_stagging]
+host = "db"
+port = 5432
+database = "k3i2023_stagging"
+user = "${POSTGRES_USER}"
+password = "${POSTGRES_PASSWORD}"
+
+[databases.k3i2022_v3]
+host = "db"
+port = 5432
+database = "k3i2022_v3"
+user = "${POSTGRES_USER}"
+password = "${POSTGRES_PASSWORD}"
+
+[admin]
+enabled = true
+host = "0.0.0.0"
+port = 9930
+
+[prometheus]
+enabled = true
+host = "0.0.0.0"
+port = 9931

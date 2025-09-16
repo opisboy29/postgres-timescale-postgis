@@ -42,12 +42,14 @@ prod-deploy: generate-config
 test:
 	@echo "Testing database connections for project: $(PROJECT_NAME)"
 	@echo "PostgreSQL: localhost:$(POSTGRES_PORT)"
-	@echo "PgBouncer: localhost:$(PGBOUNCER_PORT)"
+	@echo "PgCat: localhost:$(PGCAT_PORT)"
+	@echo "PgCat Admin: localhost:9930"
+	@echo "PgCat Metrics: localhost:9931"
 	@echo "Metrics: localhost:$(POSTGRES_EXPORTER_PORT)"
 	@psql -h localhost -p $(POSTGRES_PORT) -U $(POSTGRES_USER) -d $(POSTGRES_DB) -c "SELECT version();" || echo "Direct connection failed"
-	@psql -h localhost -p $(PGBOUNCER_PORT) -U $(POSTGRES_USER) -d $(POSTGRES_DB) -c "SELECT 1;" || echo "PgBouncer connection failed"
+	@psql -h localhost -p $(PGCAT_PORT) -U $(POSTGRES_USER) -d $(POSTGRES_DB) -c "SELECT 1;" || echo "PgCat connection failed"
 
 # Show all projects
 projects:
 	@echo "All Docker Compose projects:"
-	@docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}" | grep -E "(postgres|pgbouncer|exporter)" 
+	@docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Ports}}" | grep -E "(postgres|pgcat|exporter)" 
