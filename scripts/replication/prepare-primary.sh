@@ -39,7 +39,7 @@ run_psql "ALTER SYSTEM SET max_wal_senders = '10';"
 run_psql "ALTER SYSTEM SET max_replication_slots = '10';"
 run_psql "ALTER SYSTEM SET wal_keep_size = '512MB';"
 
-PG_HBA_CMD="HBA=/var/lib/postgresql/data/pg_hba.conf; if ! grep -q \"${PG_HBA_ENTRY}\" \"$HBA\"; then echo \"${PG_HBA_ENTRY}\" >> \"$HBA\"; fi"
+PG_HBA_CMD="HBA=/var/lib/postgresql/data/pg_hba.conf; if ! grep -q \"${PG_HBA_ENTRY}\" \"\$HBA\"; then echo \"${PG_HBA_ENTRY}\" >> \"\$HBA\"; fi"
 echo "[prepare-primary] ensuring pg_hba.conf allows replication"
 if [ -z "$POSTGRES_PASSWORD" ]; then
   ${COMPOSE_CMD} exec -T "$PRIMARY_SERVICE" bash -lc "$PG_HBA_CMD"
