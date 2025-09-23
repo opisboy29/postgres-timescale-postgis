@@ -3,6 +3,7 @@
 .env.local
 .env.production
 .env.staging
+replication/.env.replica
 
 # Database data
 data_timescale/

@@ -1,0 +1,25 @@
+services:
+  db_replica:
+    build: .
+    container_name: ${DB_CONTAINER_NAME}-replica
+    shm_size: 2gb
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_REPLICATION_USER: ${POSTGRES_REPLICATION_USER:-replicator}
+      POSTGRES_REPLICATION_PASSWORD: ${POSTGRES_REPLICATION_PASSWORD:-replicator_password}
+      POSTGRES_REPLICATION_SLOT: ${POSTGRES_REPLICATION_SLOT:-replica_slot_1}
+      POSTGRES_REPLICA_APPLICATION_NAME: ${POSTGRES_REPLICA_APPLICATION_NAME:-replica_1}
+      PRIMARY_HOST: ${PRIMARY_HOST:-db}
+      PRIMARY_PORT: ${PRIMARY_PORT:-5432}
+    volumes:
+      - "${DB_REPLICA_DATA_PATH:-./data_timescale/replica}:/var/lib/postgresql/data"
+      - "./scripts/replication/setup-replica.sh:/usr/local/bin/setup-replica.sh:ro"
+    ports:
+      - "${DB_REPLICA_PORT:-0}:5432"
+    depends_on:
+      - db
+    entrypoint: ["/usr/local/bin/setup-replica.sh"]
+    command: ["postgres"]
+    restart: always
