@@ -28,10 +28,10 @@ run_psql() {
 }
 
 echo "[prepare-primary] creating replication role if needed"
-run_psql "DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '${REPL_USER}') THEN EXECUTE format('CREATE ROLE %I WITH REPLICATION LOGIN PASSWORD %L', '${REPL_USER}', '${REPL_PASSWORD}'); END IF; END $$;"
+run_psql "DO \$\$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = '${REPL_USER}') THEN EXECUTE format('CREATE ROLE %I WITH REPLICATION LOGIN PASSWORD %L', '${REPL_USER}', '${REPL_PASSWORD}'); END IF; END \$\$;"
 
 echo "[prepare-primary] creating replication slot ${REPL_SLOT} if needed"
-run_psql "DO $$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_replication_slots WHERE slot_name = '${REPL_SLOT}') THEN PERFORM pg_create_physical_replication_slot('${REPL_SLOT}'); END IF; END $$;"
+run_psql "DO \$\$ BEGIN IF NOT EXISTS (SELECT 1 FROM pg_replication_slots WHERE slot_name = '${REPL_SLOT}') THEN PERFORM pg_create_physical_replication_slot('${REPL_SLOT}'); END IF; END \$\$;"
 
 echo "[prepare-primary] applying replication configuration via ALTER SYSTEM"
 run_psql "ALTER SYSTEM SET wal_level = 'replica';"
