@@ -14,12 +14,25 @@ services:
       PRIMARY_HOST: ${PRIMARY_HOST:-db}
       PRIMARY_PORT: ${PRIMARY_PORT:-5432}
     volumes:
-      - "${DB_REPLICA_DATA_PATH:-./data_timescale/replica}:/var/lib/postgresql/data"
+      - "${DB_REPLICA_DATA_PATH:-./data_timescale_replica}:/var/lib/postgresql/data"
       - "./scripts/replication/setup-replica.sh:/usr/local/bin/setup-replica.sh:ro"
     ports:
       - "${DB_REPLICA_PORT:-0}:5432"
     depends_on:
       - db
     entrypoint: ["/usr/local/bin/setup-replica.sh"]
-    command: ["postgres"]
+    command:
+      - "postgres"
+      - "-c"
+      - "shared_preload_libraries=timescaledb"
+      - "-c"
+      - "max_connections=${DB_MAX_CONNECTIONS}"
+      - "-c"
+      - "shared_buffers=${DB_SHARED_BUFFERS}"
+      - "-c"
+      - "effective_cache_size=${DB_EFFECTIVE_CACHE_SIZE}"
+      - "-c"
+      - "maintenance_work_mem=${DB_MAINTENANCE_WORK_MEM}"
+      - "-c"
+      - "work_mem=${DB_WORK_MEM}"
     restart: always

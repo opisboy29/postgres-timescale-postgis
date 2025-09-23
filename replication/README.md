@@ -42,8 +42,10 @@ POSTGRES_REPLICATION_SLOT=myreplica \
 The replica runs from a small Compose override file so the original stack stays untouched.
 
 ```bash
-# first create replica data directory (lives inside the ignored data folder)
-mkdir -p data_timescale/replica
+# first create replica data directory (separate from primary volume)
+mkdir -p data_timescale_replica
+sudo chown 999:999 data_timescale_replica
+sudo chmod 700 data_timescale_replica
 
 # start replica alongside the existing project
 set -a; [ -f replication/.env.replica ] && . replication/.env.replica; set +a
@@ -61,12 +63,12 @@ POSTGRES_REPLICATION_PASSWORD=secret \
 POSTGRES_REPLICATION_SLOT=myreplica \
 PRIMARY_HOST=db \
 PRIMARY_PORT=5432 \
-DB_REPLICA_DATA_PATH=./data_timescale/replica \
+DB_REPLICA_DATA_PATH=./data_timescale_replica \
 DB_REPLICA_PORT=5440 \
   docker compose -f docker-compose.yml -f replication/docker-compose.replica.yml up -d db_replica
 ```
 
-The entrypoint script waits for the primary, runs `pg_basebackup` into `data_timescale/replica`, and starts PostgreSQL in standby mode. If `DB_REPLICA_PORT` is not set, Docker maps the replica to a random free local port (check with `docker compose port db_replica 5432`).
+The entrypoint script waits for the primary, runs `pg_basebackup` into `data_timescale_replica`, and starts PostgreSQL in standby mode. If `DB_REPLICA_PORT` is not set, Docker maps the replica to a random free local port (check with `docker compose port db_replica 5432`).
 
 ## 3. Validate Replication
 
@@ -92,7 +94,7 @@ Stop the replica with:
 docker compose -f docker-compose.yml -f replication/docker-compose.replica.yml down db_replica
 ```
 
-Remove the replica data directory (`data_timescale/replica`) only if you are sure you no longer need it.
+Remove the replica data directory (`data_timescale_replica`) only if you are sure you no longer need it.
 
 ---
 
